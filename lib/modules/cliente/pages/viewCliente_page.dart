@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sobrerodas/modules/cliente/controllers/viewCliente_controller.dart';
+import 'package:sobrerodas/modules/cliente/models/cliente_model.dart';
 
 class ViewCliente extends StatefulWidget {
   const ViewCliente({ Key? key }) : super(key: key);
@@ -8,9 +9,30 @@ class ViewCliente extends StatefulWidget {
   State<ViewCliente> createState() => _ViewClienteState();
 }
 
-final _controller = ViewClienteController();
 
 class _ViewClienteState extends State<ViewCliente> {
+  @override
+  void initState() {
+   selecionaCliente();
+    super.initState();
+  }
+  final _controller = ViewClienteController();
+  int index = 0;
+  ClienteModel cliente = ClienteModel();
+  int numeroClientes = 0;
+
+  selecionaCliente() async{
+    cliente = await _controller.selecionarClientes(index);
+    numeroClientes = await _controller.numeroClientes();
+    print(cliente);
+    print(numeroClientes);
+    setState(() { 
+      cliente;
+      numeroClientes;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +49,14 @@ class _ViewClienteState extends State<ViewCliente> {
           ],
         )
       ),
-      body: Column(
+      body: cliente.email!.isNotEmpty ? Column(
         children: [
           texto("CPF: "),
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                hintText: cliente.cpf,
                 prefixIcon: Icon(Icons.badge),
                 border: OutlineInputBorder(),
               ),
@@ -44,7 +67,8 @@ class _ViewClienteState extends State<ViewCliente> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                hintText: cliente.nome,
                 prefixIcon: Icon(Icons.person),
                 border: OutlineInputBorder(),
               ),
@@ -55,7 +79,8 @@ class _ViewClienteState extends State<ViewCliente> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                hintText: cliente.telefone,
                 prefixIcon: Icon(Icons.phone),
                 border: OutlineInputBorder(),
               ),
@@ -66,7 +91,8 @@ class _ViewClienteState extends State<ViewCliente> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                hintText: cliente.email,
                 prefixIcon: Icon(Icons.email),
                 border: OutlineInputBorder(),
               ),
@@ -77,7 +103,8 @@ class _ViewClienteState extends State<ViewCliente> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+              hintText: cliente.endereco,
                 prefixIcon: Icon(Icons.house),
                 border: OutlineInputBorder(),
               ),
@@ -92,7 +119,14 @@ class _ViewClienteState extends State<ViewCliente> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10,20,20,0),
                 child: ElevatedButton(
-                  onPressed:(){},
+                  onPressed:(){
+                    setState(() {
+                      if (index > 0){
+                        index--;
+                      }
+                      selecionaCliente();
+                    });
+                  },
                   child: const Text('Retornar',
                     style: TextStyle(
                       color:Colors.white
@@ -107,7 +141,14 @@ class _ViewClienteState extends State<ViewCliente> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10,20,20,0),
                 child: ElevatedButton(
-                  onPressed:(){},
+                  onPressed:(){
+                    setState(() {
+                      if (index < numeroClientes - 1){
+                        index++;
+                      }
+                      selecionaCliente();
+                    });
+                  },
                   child: const Text('Próximo',
                     style: TextStyle(
                       color:Colors.white
@@ -122,7 +163,7 @@ class _ViewClienteState extends State<ViewCliente> {
             ],
           )
         ],
-      ),
+      ) : Text('Não há clientes cadastrados!')
     );
   }
 

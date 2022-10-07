@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
+import 'package:sobrerodas/modules/cliente/pages/cadCliente_page.dart';
+import 'package:sobrerodas/modules/cliente/pages/viewCliente_page.dart';
+import 'package:sobrerodas/modules/cliente/repositories/cliente_repository.dart';
 import 'package:sobrerodas/modules/home/controllers/home_controller.dart';
+import 'package:sobrerodas/modules/produto/pages/cadProduto_page.dart';
+import 'package:sobrerodas/modules/produto/pages/viewProduto_page.dart';
+import 'package:sobrerodas/modules/servico/pages/cadServico_page.dart';
+import 'package:sobrerodas/modules/servico/pages/viewServico_page.dart';
+import 'package:sobrerodas/shared/components/botao_formulario/botao_formulario.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({ Key? key }) : super(key: key);
@@ -8,9 +18,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePage();
 }
 
-final _controller = HomeController();
+
 
 class _HomePage extends State<HomePage> {
+  final _controller = HomeController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,119 +41,126 @@ class _HomePage extends State<HomePage> {
       ),
       body: ListView(
         children: [
-
-
-
           //Produtos
           Row(
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20,30,10,0),
-                child: 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Cadastrar Produtos',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(225, 50),
-                    ),
-                  ),
+                child: BotaoForm(
+                  texto: 'Cadastrar Produtos', 
+                  cor: Colors.blue, 
+                  corTexto: Colors.white,
+                  aoClicar: (){
+                    final rota = MaterialPageRoute(
+                      builder: (context) => const CadProduto(),
+                    );
+                    Navigator.of(context).push(rota);
+                  },
                 ),
-                Padding(
-                padding: const EdgeInsets.fromLTRB(10,30,20,0),
-                child: 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Ver Produtos',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(225, 50),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-
-
-
-
-          // Serviços
-          Row(
-            children: [
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20,30,10,0),
-                child: 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Cadastrar Serviços',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(225, 50),
-                    ),
-                  ),
+                child: BotaoForm(
+                  texto: 'Ver Produtos', 
+                  cor: Colors.blue, 
+                  corTexto: Colors.white,
+                  aoClicar: (){
+                    final rota = MaterialPageRoute(
+                      builder: (context) => const ViewProduto(),
+                    );
+                    Navigator.of(context).push(rota);
+                  },
                 ),
-                Padding(
-                padding: const EdgeInsets.fromLTRB(10,30,20,0),
-                child: 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Ver Serviços',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(225, 50),
-                    ),
-                  ),
-                ),
+              ),
               ],
+          ),
+
+        // Serviços
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,30,10,0),
+              child: BotaoForm(
+                texto: 'Cadastrar Serviços', 
+                cor: Colors.blue, 
+                corTexto: Colors.white,
+                aoClicar: (){
+                  final rota = MaterialPageRoute(
+                    builder: (context) => const CadServico(),
+                  );
+                  Navigator.of(context).push(rota);
+                },
+              ),
             ),
-
-
-
-
-
-
-          // Clientes
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20,30,10,0),
-                child: 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Cadastrar Clientes',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(225, 50),
-                    ),
-                  ),
-                ),
-                Padding(
-                padding: const EdgeInsets.fromLTRB(10,30,20,0),
-                child: 
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Ver Clientes',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, minimumSize: const Size(225, 50),
-                    ),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,30,10,0),
+              child: BotaoForm(
+                texto: 'Ver Serviços', 
+                cor: Colors.blue, 
+                corTexto: Colors.white,
+                aoClicar: (){
+                  final rota = MaterialPageRoute(
+                    builder: (context) => const ViewServico(),
+                  );
+                  Navigator.of(context).push(rota);
+                },
+              ),
             ),
+          ],
+        ),
+
+        // Clientes
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,30,10,0),
+              child: BotaoForm(
+                texto: 'Cadastrar Clientes', 
+                cor: Colors.blue, 
+                corTexto: Colors.white,
+                aoClicar: (){
+                  final rota = MaterialPageRoute(
+                    builder: (context) => const CadCliente(),
+                  );
+                  Navigator.of(context).push(rota);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,30,10,0),
+              child: BotaoForm(
+                texto: 'Ver Clientes', 
+                cor: Colors.blue, 
+                corTexto: Colors.white,
+                aoClicar: () async {
+                  var existe = await _controller.existeClientes();
+                  if (existe){
+                    final rota = MaterialPageRoute(
+                      builder: (context) => const ViewCliente(),
+                    );
+                    Navigator.of(context).push(rota);
+                  } else {
+                    MotionToast.error(
+                        title: const Text(
+                          'Erro',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        description: const Text('Não há clientes cadastrados!'),
+                        animationType: AnimationType.fromLeft,
+                        position: MotionToastPosition.top,
+                        barrierColor: Colors.black.withOpacity(0.3),
+                        width: 300,
+                        height: 80,
+                        dismissable: false,
+                      ).show(context);
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
         ],
       )
     );

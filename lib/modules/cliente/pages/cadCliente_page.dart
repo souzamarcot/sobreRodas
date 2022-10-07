@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:sobrerodas/modules/cliente/controllers/cadCliente_controller.dart';
+import 'package:sobrerodas/shared/components/botao_formulario/botao_formulario.dart';
+import 'package:sobrerodas/shared/components/campo_formulario/campo_formulario.dart';
+
 
 class CadCliente extends StatefulWidget {
   const CadCliente({ Key? key }) : super(key: key);
@@ -8,9 +13,9 @@ class CadCliente extends StatefulWidget {
   State<CadCliente> createState() => _CadClienteState();
 }
 
-final _controller = CadClienteController();
-
 class _CadClienteState extends State<CadCliente> {
+  final _controller = CadClienteController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,89 +32,94 @@ class _CadClienteState extends State<CadCliente> {
           ],
         )
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20,30,20,0),
-            child: TextFormField(
-              controller: _controller.CPF,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.badge),
-                label: Text('CPF'),
-                border: OutlineInputBorder(),
+      body: Form(
+        child: ListView(
+          children: [
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: '000.000.000-00', 
+                icone: Icons.badge, 
+                controller: _controller.cpf, 
+                keyBoardType: TextInputType.number, 
+                textLabel: 'CPF',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.nome,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.person),
-                label: Text('Nome'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'Fulano da Silva', 
+                icone: Icons.person, 
+                controller: _controller.nome, 
+                keyBoardType: TextInputType.text, 
+                textLabel: 'Nome',
               ),
             ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.telefone,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.phone),
-                label: Text('Telefone'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: '(00) 00000-0000', 
+                icone: Icons.phone, 
+                controller: _controller.telefone, 
+                keyBoardType: TextInputType.phone, 
+                textLabel: 'Telefone',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.email,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.email),
-                label: Text('E-mail'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'fulano@fulano.com', 
+                icone: Icons.email, 
+                controller: _controller.email, 
+                keyBoardType: TextInputType.emailAddress, 
+                textLabel: 'E-mail',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.endereco,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.house),
-                label: Text('Endereço'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'Rua, nº, bairro, cidade, estado.', 
+                icone: Icons.house, 
+                controller: _controller.endereco, 
+                keyBoardType: TextInputType.text, 
+                textLabel: 'Endereço',
               ),
             ),
-          ),
 
           Padding(
             padding: const EdgeInsets.fromLTRB(20,50,20,0),
-            child: ElevatedButton(
-              onPressed:(){},
-              child: const Text('Cadastrar',
-                style: TextStyle(
-                  color:Colors.white
-                ),
+            child: BotaoForm(
+                texto: 'Cadastrar', 
+                cor: Colors.blue, 
+                corTexto: Colors.white,
+                aoClicar: (){
+                  _controller.salvarOnPressed(
+                    sucesso: (){
+                      Navigator.pop(context);
+                    },
+                    falha: (motivo){
+                      MotionToast.error(
+                        title: const Text(
+                          'Erro',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        description: Text(motivo),
+                        animationType: AnimationType.fromLeft,
+                        position: MotionToastPosition.top,
+                        barrierColor: Colors.black.withOpacity(0.3),
+                        width: 300,
+                        height: 80,
+                        dismissable: false,
+                      ).show(context);
+                    }
+                  );
+                },
               ),
-              style: ElevatedButton.styleFrom(
-                primary: const Color.fromRGBO(1, 143, 209, 100), 
-                minimumSize: const Size(100,50),
-              ),
-            ),
           ),
         ],
+        ),
       ),
     );
   }
