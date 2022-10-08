@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sobrerodas/modules/produto/controllers/viewProduto_controller.dart';
+import 'package:sobrerodas/modules/produto/models/produto_model.dart';
 
 class ViewProduto extends StatefulWidget {
   const ViewProduto({ Key? key }) : super(key: key);
@@ -7,7 +9,30 @@ class ViewProduto extends StatefulWidget {
   State<ViewProduto> createState() => _ViewProdutoState();
 }
 
+
 class _ViewProdutoState extends State<ViewProduto> {
+  @override
+  void initState() {
+   selecionaProduto();
+    super.initState();
+  }
+  final _controller = ViewProdutoController();
+  int index = 0;
+  ProdutoModel produto = ProdutoModel();
+  int numeroProdutos = 0;
+
+  selecionaProduto() async{
+    produto = await _controller.selecionarProdutos(index);
+    numeroProdutos = await _controller.numeroProdutos();
+    print(produto);
+    print(numeroProdutos);
+    setState(() { 
+      produto;
+      numeroProdutos;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,34 +49,40 @@ class _ViewProdutoState extends State<ViewProduto> {
           ],
         )
       ),
-      body: Column(
+      body: produto.numero!.isNotEmpty ? Column(
         children: [
-          texto("Número da peça: "),
+          texto("Número: "),
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: produto.numero,
+                prefixIcon: const Icon(Icons.numbers),
+                border: const OutlineInputBorder(),
               ),
               readOnly: true,
             ),
           ),
-          texto("Nome da peça: "),
+          texto("Nome da Peça: "),
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: produto.nomepeca,
+                prefixIcon: const Icon(Icons.text_fields),
+                border: const OutlineInputBorder(),
               ),
               readOnly: true,
             ),
           ),
-          texto("Fornecedor: "),
+          texto("Fonecedor: "),
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: produto.fornecedor,
+                prefixIcon: const Icon(Icons.store),
+                border: const OutlineInputBorder(),
               ),
               readOnly: true,
             ),
@@ -60,18 +91,22 @@ class _ViewProdutoState extends State<ViewProduto> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: produto.precopeca,
+                prefixIcon: const Icon(Icons.attach_money),
+                border: const OutlineInputBorder(),
               ),
               readOnly: true,
             ),
           ),
-          texto("Descrição: "),
+          texto("Descriçao: "),
           Padding(
             padding: const EdgeInsets.fromLTRB(20,5,20,0),
             child: TextFormField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+              hintText: produto.descricao,
+                prefixIcon: const Icon(Icons.text_fields),
+                border: const OutlineInputBorder(),
               ),
               readOnly: true,
             ),
@@ -84,7 +119,14 @@ class _ViewProdutoState extends State<ViewProduto> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10,20,20,0),
                 child: ElevatedButton(
-                  onPressed:(){},
+                  onPressed:(){
+                    setState(() {
+                      if (index > 0){
+                        index--;
+                      }
+                      selecionaProduto();
+                    });
+                  },
                   child: const Text('Retornar',
                     style: TextStyle(
                       color:Colors.white
@@ -99,7 +141,14 @@ class _ViewProdutoState extends State<ViewProduto> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(10,20,20,0),
                 child: ElevatedButton(
-                  onPressed:(){},
+                  onPressed:(){
+                    setState(() {
+                      if (index < numeroProdutos - 1){
+                        index++;
+                      }
+                      selecionaProduto();
+                    });
+                  },
                   child: const Text('Próximo',
                     style: TextStyle(
                       color:Colors.white
@@ -114,7 +163,7 @@ class _ViewProdutoState extends State<ViewProduto> {
             ],
           )
         ],
-      ),
+      ) : const Text('Não há produtos cadastrados!')
     );
   }
 
