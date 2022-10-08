@@ -101,22 +101,6 @@ final _controller = LoginController();
               ),
             ),
           ),
-
-
-          //Botão criar conta
-          Padding(
-            padding: const EdgeInsets.fromLTRB(50, 30, 50, 0),
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'Criar conta',
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue.shade800, minimumSize: const Size(100, 50),
-              ),
-            ),
-          ),
         ]
       ),
     );

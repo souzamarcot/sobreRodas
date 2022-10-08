@@ -127,7 +127,7 @@ class _ViewClienteState extends State<ViewCliente> {
                       selecionaCliente();
                     });
                   },
-                  child: const Text('Retornar',
+                  child: const Text('<',
                     style: TextStyle(
                       color:Colors.white
                     ),
@@ -149,7 +149,7 @@ class _ViewClienteState extends State<ViewCliente> {
                       selecionaCliente();
                     });
                   },
-                  child: const Text('Próximo',
+                  child: const Text('>',
                     style: TextStyle(
                       color:Colors.white
                     ),

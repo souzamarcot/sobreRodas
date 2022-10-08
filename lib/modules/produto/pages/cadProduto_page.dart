@@ -5,7 +5,6 @@ import 'package:sobrerodas/modules/produto/controllers/cadProduto_controller.dar
 import 'package:sobrerodas/shared/components/botao_formulario/botao_formulario.dart';
 import 'package:sobrerodas/shared/components/campo_formulario/campo_formulario.dart';
 
-
 class CadProduto extends StatefulWidget {
   const CadProduto({ Key? key }) : super(key: key);
 

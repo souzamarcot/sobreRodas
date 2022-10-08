@@ -9,6 +9,7 @@ import 'package:sobrerodas/modules/produto/pages/cadProduto_page.dart';
 import 'package:sobrerodas/modules/produto/pages/viewProduto_page.dart';
 import 'package:sobrerodas/modules/servico/pages/cadServico_page.dart';
 import 'package:sobrerodas/modules/servico/pages/viewServico_page.dart';
+import 'package:sobrerodas/shared/componentes/botoes/homebuttons.dart';
 import 'package:sobrerodas/shared/components/botao_formulario/botao_formulario.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,10 +47,11 @@ class _HomePage extends State<HomePage> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20,30,10,0),
-                child: BotaoForm(
+                child: HomeButton(
                   texto: 'Cadastrar Produtos', 
                   cor: Colors.blue, 
-                  corTexto: Colors.white,
+                  cortexto: Colors.white,
+                  icone: Icons.settings,
                   aoClicar: (){
                     final rota = MaterialPageRoute(
                       builder: (context) => const CadProduto(),
@@ -60,10 +62,11 @@ class _HomePage extends State<HomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20,30,10,0),
-                child: BotaoForm(
+                child: HomeButton(
                   texto: 'Ver Produtos', 
                   cor: Colors.blue, 
-                  corTexto: Colors.white,
+                  cortexto: Colors.white,
+                  icone: Icons.settings,
                   aoClicar: (){
                     final rota = MaterialPageRoute(
                       builder: (context) => const ViewProduto(),
@@ -80,10 +83,11 @@ class _HomePage extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20,30,10,0),
-              child: BotaoForm(
+              child: HomeButton(
                 texto: 'Cadastrar Serviços', 
                 cor: Colors.blue, 
-                corTexto: Colors.white,
+                cortexto: Colors.white,
+                icone: Icons.construction,
                 aoClicar: (){
                   final rota = MaterialPageRoute(
                     builder: (context) => const CadServico(),
@@ -94,10 +98,11 @@ class _HomePage extends State<HomePage> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20,30,10,0),
-              child: BotaoForm(
+              child: HomeButton(
                 texto: 'Ver Serviços', 
                 cor: Colors.blue, 
-                corTexto: Colors.white,
+                cortexto: Colors.white,
+                icone: Icons.construction,
                 aoClicar: (){
                   final rota = MaterialPageRoute(
                     builder: (context) => const ViewServico(),
@@ -114,10 +119,11 @@ class _HomePage extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(20,30,10,0),
-              child: BotaoForm(
+              child: HomeButton(
                 texto: 'Cadastrar Clientes', 
                 cor: Colors.blue, 
-                corTexto: Colors.white,
+                cortexto: Colors.white,
+                icone: Icons.person,
                 aoClicar: (){
                   final rota = MaterialPageRoute(
                     builder: (context) => const CadCliente(),
@@ -128,10 +134,11 @@ class _HomePage extends State<HomePage> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20,30,10,0),
-              child: BotaoForm(
+              child: HomeButton(
                 texto: 'Ver Clientes', 
                 cor: Colors.blue, 
-                corTexto: Colors.white,
+                cortexto: Colors.white,
+                icone: Icons.person,
                 aoClicar: () async {
                   var existe = await _controller.existeClientes();
                   if (existe){

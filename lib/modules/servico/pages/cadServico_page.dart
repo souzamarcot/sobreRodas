@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:sobrerodas/modules/servico/controllers/cadServico_controller.dart';
+import 'package:sobrerodas/shared/components/botao_formulario/botao_formulario.dart';
+import 'package:sobrerodas/shared/components/campo_formulario/campo_formulario.dart';
 
 class CadServico extends StatefulWidget {
   const CadServico({ Key? key }) : super(key: key);
@@ -8,9 +12,9 @@ class CadServico extends StatefulWidget {
   State<CadServico> createState() => _CadServicoState();
 }
 
-final _controller = CadServicoController();
-
 class _CadServicoState extends State<CadServico> {
+  final _controller = CadServicoController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,102 +31,105 @@ class _CadServicoState extends State<CadServico> {
           ],
         ),
       ),
-      body: ListView(
-        children:[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20,30,20,0),
-            child: TextFormField(
-              controller: _controller.nome,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.person),
-                label: Text('Nome do Cliente'),
-                border: OutlineInputBorder(),
+      body: Form(
+        child: ListView(
+          children: [
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'Fulano da Silva', 
+                icone: Icons.person, 
+                controller: _controller.nome, 
+                keyBoardType: TextInputType.number, 
+                textLabel: 'Nome',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.telefone,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.phone),
-                label: Text('Telefone'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: '(00) 00000-0000', 
+                icone: Icons.phone, 
+                controller: _controller.telefone, 
+                keyBoardType: TextInputType.text, 
+                textLabel:'Telefone',
               ),
             ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.modelo,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.pedal_bike),
-                label: Text('Modelo de Bicicleta'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'Marca ', 
+                icone: Icons.pedal_bike, 
+                controller: _controller.modelo, 
+                keyBoardType: TextInputType.text, 
+                textLabel: 'Modelo de Bike',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.servico,
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.construction),
-                label: Text('Serviço'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'Revisão Geral', 
+                icone: Icons.toc_outlined,
+                controller: _controller.servico, 
+                keyBoardType: const TextInputType.numberWithOptions(decimal: true), 
+                textLabel: 'Servico',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.data,
-              keyboardType: TextInputType.datetime,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.date_range),
-                label: Text('Data'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: '00/00/0000', 
+                icone: Icons.calendar_month,
+                controller: _controller.data, 
+                keyBoardType: TextInputType.text, 
+                textLabel: 'Data',
               ),
             ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
-            child: TextFormField(
-              controller: _controller.preco,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.attach_money),
-                label: Text('Valor'),
-                border: OutlineInputBorder(),
+            Padding(
+              padding:  const EdgeInsets.fromLTRB(20,30,20,0),
+              child: CampoForm(
+                hintText: 'R\$149,00', 
+                icone: Icons.attach_money,
+                controller: _controller.valor, 
+                keyBoardType: TextInputType.text, 
+                textLabel: 'Valor',
               ),
             ),
-          ),
-
 
           Padding(
             padding: const EdgeInsets.fromLTRB(20,50,20,0),
-            child: ElevatedButton(
-              onPressed:(){},
-              child: const Text('Cadastrar', 
-                style: TextStyle(color:Colors.white),
+            child: BotaoForm(
+                texto: 'Cadastrar', 
+                cor: Colors.blue, 
+                corTexto: Colors.white,
+                aoClicar: (){
+                  _controller.salvarOnPressed(
+                    sucesso: (){
+                      Navigator.pop(context);
+                    },
+                    falha: (motivo){
+                      MotionToast.error(
+                        title: const Text(
+                          'Erro',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        description: Text(motivo),
+                        animationType: AnimationType.fromLeft,
+                        position: MotionToastPosition.top,
+                        barrierColor: Colors.black.withOpacity(0.3),
+                        width: 300,
+                        height: 80,
+                        dismissable: false,
+                      ).show(context);
+                    }
+                  );
+                },
               ),
-              style: ElevatedButton.styleFrom(
-                primary: const Color.fromRGBO(1, 143, 209, 100),
-                minimumSize: const Size(100,50),
-              ),
-            ),
           ),
         ],
-      )
-      );
+        ),
+      ),
+    );
   }
 }
